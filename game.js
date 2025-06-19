@@ -5,64 +5,65 @@ let gameBoard=[[" "," "," "],
               ];
 
 
+// let players = {
+// player1: "Kail",
+// player2: "Mosh"
+// }
 
 function isBoardFull() {
     let result=false;
     for (let i = 0; i < gameBoard.length; i++) {
         for (let j = 0; j < gameBoard[i].length; j++) {
             if (gameBoard[i][j] === ' ') {
-                return false;
+                return false;// There's still an empty spot
             }
         }
     }
-    return true; 
+    // result=true;
+    return true; // No empty spots found
 }
 
-function getwinner(choice){
-    let finishedBoard = false;
-   let isThere_Awinner= false;
-   let the_winner = ''
-    for (let i=0; i<gameBoard.length; i++) {
+function getwinner(choice) {
+    let the_winner = "";
+    let isThere_Awinner = false;
 
-                
-        for (let j=0; j<gameBoard.length; j++) {
-           
-
-            for (let k=0; k<gameBoard.length; k++) {
-                if (gameBoard.length !== 0) {
-                    finishedBoard = true;
-                }
-                if(gameBoard[j][0] === choice && gameBoard[j][1] === choice && gameBoard[j][2] === choice){
-                    the_winner = `the winner ${choice}`;
-                    isThere_Awinner=true;
-                }else if(gameBoard[0][j] === choice && gameBoard[1][j] === choice && gameBoard[2][j] === choice){
-                    the_winner = `the winner ${choice}`;
-                     isThere_Awinner=true;
-
-                  }else if(gameBoard[0][0] === choice && gameBoard[1][1] === choice && gameBoard[2][2] === choice){
-                    the_winner = `the winner ${choice}`;
-                    isThere_Awinner=true;
-
-
-                  }else if(gameBoard[0][2] === choice && gameBoard[1][1] === choice && gameBoard[2][0] === choice){
-                    the_winner = `the winner ${choice}`;
-                    isThere_Awinner=true;
-
-
-                  }else{
-                        the_winner = `It's a Draw or finish the game`;
-                        
-                  }    
-           }
+    // Rows
+    for (let i = 0; i < 3; i++) {
+        if (gameBoard[i][0] === choice && gameBoard[i][1] === choice && gameBoard[i][2] === choice) {
+            isThere_Awinner = true;
         }
+    }
 
-      }
-   
-      
-   let result = isBoardFull();
-      return {the_winner ,isThere_Awinner,result};
+    // Columns
+    for (let j = 0; j < 3; j++) {
+        if (gameBoard[0][j] === choice && gameBoard[1][j] === choice && gameBoard[2][j] === choice) {
+            isThere_Awinner = true;
+        }
+    }
 
+    // Diagonals
+    if (gameBoard[0][0] === choice && gameBoard[1][1] === choice && gameBoard[2][2] === choice) {
+        isThere_Awinner = true;
+    }
+    if (gameBoard[0][2] === choice && gameBoard[1][1] === choice && gameBoard[2][0] === choice) {
+        isThere_Awinner = true;
+    }
+
+    if (isThere_Awinner) {
+        the_winner = `The winner is ${choice}`;
+    } else if (isBoardFull()) {
+        the_winner = "It's a Draw!";
+    } else {
+        the_winner = "Continue playing...";
+    }
+
+    return {
+        the_winner,
+        isThere_Awinner,
+        result: isBoardFull()
+    };
 }
+
 
 function setInput(getChoice,value){
     x = prompt(`Player ${value} - x position`);
