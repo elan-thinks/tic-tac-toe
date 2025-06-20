@@ -1,47 +1,51 @@
-## tic-tac-toe
 
+# 🎯 Tic Tac Toe (Console Version)
 
-# Tic Tac Toe (Console Version)
-
-A simple two-player **Tic Tac Toe** game built with vanilla JavaScript. This version runs entirely in the **browser console** and uses `prompt`/`alert` for user interaction.
+A fun and interactive **Tic Tac Toe** game built with vanilla JavaScript. This version runs entirely in the **browser console**, featuring both **two-player mode** and a **computer opponent** with two difficulty levels.
 
 ---
 
 ## 🎮 How to Play
 
-1. Clone or download this repository.
-2. Open the `index.html` file in your browser.
-3. Open your **browser's developer console** (usually F12 or right-click → Inspect → Console).
-4. The game will prompt:
-   - Player 1 to choose `'x'` or `'o'`
-   - Each player will take turns entering coordinates to place their mark.
-5. The game ends when:
-   - A player wins (3 in a row)
-   - The board is full (draw)
+1. 🧾 Clone or download this repository.
+2. 🌐 Open the `index.html` file in your browser.
+3. 🖥️ Open your **browser's developer console** (F12 or right-click → Inspect → Console).
+4. 📋 The game will prompt:
+   - 🧍 Choose to play with a **friend** or 🖥️ the **computer**
+   - 💡 If vs computer, choose difficulty: **easy** 🐣 or **hard** 🧠
+   - ✖️ Player 1 selects `'x'` or `'o'`
+5. 🔢 Enter your move (X & Y between 0 and 2).
+6. 🏁 Game ends when:
+   - ✅ A player gets 3 in a row (win)
+   - 🤝 All cells are filled (draw)
 
 ---
 
 ## 🧠 Features
 
-- 3x3 grid logic using a 2D array
-- Turn-based input via `prompt()`
-- Win detection (rows, columns, diagonals)
-- Draw detection when board is full
-- Console-based game board rendering
+- 📦 3x3 board using a 2D array
+- 👯 Two-player local mode
+- 🤖 Computer opponent with:
+  - 🐣 Easy mode (basic logic)
+  - 🧠 Hard mode (blocks winning moves)
+- 🧼 Input validation
+- 🧾 Console-rendered board after each turn
+- 🏆 Win and draw detection
+- 🧹 Clean console UI with `console.clear()`
 
 ---
 
-## 🔍 Sample Output
+## 🧪 Sample Output
 
 ```
 
-## | x |   | o |
+## | x | o |   |
 
 ## | x | o |   |
 
 ## | x |   |   |
 
-The winner is x
+🏆 The winner is x
 
 ```
 
@@ -49,10 +53,10 @@ The winner is x
 
 ## 🚧 Planned Features (Next Commit)
 
-- ✅ DOM-based graphical UI (instead of console)
-- ✅ Clickable game board
-- ✅ Improved user experience with styled elements
-- ✅ Restart button and scoreboard
+- 🖼️ Graphical UI using the DOM
+- 🖱️ Clickable board
+- 🎨 Styled layout and interface
+- 🔁 Restart button & 📊 score tracking
 
 ---
 
@@ -60,9 +64,9 @@ The winner is x
 
 ```
 
-tic-tac-toe/
-├── index.html
-└── script.js   ← (contains the game logic)
+📂 tic-tac-toe/
+├── 📄 index.html
+└── 📜 script.js   ← Game logic
 
 ```
 
@@ -70,15 +74,18 @@ tic-tac-toe/
 
 ## 📜 License
 
-This project is open-source and free to use under the [MIT License](LICENSE).
+📖 This project is licensed under the [MIT License](LICENSE).
 
 ---
 
 ## 🙌 Acknowledgments
 
-Inspired by classic beginner-friendly JavaScript projects. Built as a learning exercise to master logic, user input handling, and game state management.
+Built as a personal challenge to strengthen JS skills, logic design, and game flow. Inspired by classic JavaScript exercises.
 
+---
+
+💡 Made with ☕ and 💻 by **@elan-thinks**
 ```
 
 ---
-By @elan-thinks
+
