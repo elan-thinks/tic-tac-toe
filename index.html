@@ -3,11 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Tic Tac Toe</title>
 </head>
 <body>
-    <h2>Hello</h2>
-    <p>Check your Console</p>
+    <div class="wrapper">
+        <img src="Assets/logo.png" class="logo" alt="">
+        <div class="welcome-container">
+            <div>
+                <h2>Tic Tac</h2>
+                <h1>Toe</h1>
+            </div>
+           
+            <button class="playBtn">Play</button>
+
+        </div>
+
+        <div class="choose-match-container">
+            <div class="match">
+                <div class="botDiv">
+                    <img src="Assets/image.png" alt="bot image" class="botImage">
+
+                </div>
+                <div class="friendDiv">
+                     <img src="Assets/friend.png" alt="freind Image" class="friendImage">
+                </div>
+            </div>
+            <span class="symbol-x">❌</span>
+            <span class="symbol-o">⭕</span>
+
+            <button id="matchBtn">NEXT</button>
+           
+        </div>
+        <div class="choose-level-container">
+            <h2>Choose Your Level</h2>
+            <div class="levels">
+                <button id="simpleLevel">Simple</button>
+                <button id="hardLevel">Hard</button>
+            </div>
+            <button id="leveBtn">NEXT</button>
+        </div>
+        <div class="enter-your-name">
+            <h2>Choose Your Name</h2>
+            <div class="names">
+                <input type="text" id="player1-name">
+                <input type="text" id="player2-name">
+            </div>
+            <button id="nameBtn">Start</button>
+        </div>
+
+
+
+        <div class="game">
+            <div class="tag-last-winner">
+
+                <img src="Assets/friend.png" alt="">
+                <img src="Assets/image.png" alt="">
+            </div>
+            <div class="avatars">
+                    <div class="botDiv">
+                        <img alt="bot image" class="player1">
+                         <label id="player-1"></label>
+                    </div>
+                    <div class="friendDiv">
+                         <img  alt="freind Image" class="player2">
+                          <label id="player-2"></label>
+                    </div>
+            
+
+            </div>
+            <div class="game-board">
+        
+            </div>
+        </div>
+    </div>
     <script src="game.js"></script>
 </body>
 </html>
