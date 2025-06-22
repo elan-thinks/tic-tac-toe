@@ -20,17 +20,23 @@
         </div>
 
         <div class="choose-match-container">
+            <h2>Choose Your Match</h2>
+
             <div class="match">
                 <div class="botDiv">
                     <img src="Assets/image.png" alt="bot image" class="botImage">
 
                 </div>
                 <div class="friendDiv">
-                     <img src="Assets/friend.png" alt="freind Image" class="friendImage">
+                     <img src="Assets/friend2.png" alt="freind Image" class="friendImage">
                 </div>
             </div>
-            <span class="symbol-x">❌</span>
-            <span class="symbol-o">⭕</span>
+            <h3>Choose Your Symole</h3>
+            <div class="XO">
+                <span class="symbol-x">❌</span>
+                <span class="symbol-o">⭕</span>
+            </div>
+            
 
             <button id="matchBtn">NEXT</button>
            
@@ -46,8 +52,8 @@
         <div class="enter-your-name">
             <h2>Choose Your Name</h2>
             <div class="names">
-                <input type="text" id="player1-name">
-                <input type="text" id="player2-name">
+                <input type="text" id="player1-name" placeholder="Player 1">
+                <input type="text" id="player2-name" placeholder="Player 2">
             </div>
             <button id="nameBtn">Start</button>
         </div>
@@ -62,12 +68,12 @@
             </div>
             <div class="avatars">
                     <div class="botDiv">
-                        <img alt="bot image" class="player1">
-                         <label id="player-1"></label>
+                        <img alt="bot image" class="player1 player">
+                         <label id="player-1">Player 1</label>
                     </div>
                     <div class="friendDiv">
-                         <img  alt="freind Image" class="player2">
-                          <label id="player-2"></label>
+                         <img  alt="freind Image" class="player2 player">
+                          <label id="player-2">Player 2</label>
                     </div>
             
 
@@ -75,8 +81,22 @@
             <div class="game-board">
         
             </div>
+            
         </div>
+        
+          
+          
+       
     </div>
+    <dialog id="winnerDialog">
+        <div class="dialog-content">
+          <img src="Assets/winner-icon.png" alt="Winner Icon" />
+          <h2>🏆 Winner!</h2>
+          <p id="winnerIs"></p>
+          <button id="playAgainBtn">Play Again</button>
+        </div>
+    </dialog>
+    
     <script src="game.js"></script>
 </body>
 </html>

@@ -51,13 +51,6 @@ const GameBoard = (function () {
   //**************************Game************************************************************* *//
   
   function Game() {
-        // function validInputNumber(choice) {
-        // return !isNaN(choice) && choice >= 0 && choice <= 2;
-        // }
-    
-        // function checkXO(choice) {
-        // return (choice === "x" || choice === "o") && choice !== " ";
-        // }
     
         function getWinner(choice) {
         let isWinner = false;
@@ -114,24 +107,6 @@ const GameBoard = (function () {
         };
         }
   
-        // function playerMove(symbol, playerNumber) {
-        // let x = parseInt(prompt(`Player ${playerNumber} - Enter X (0-2):`));
-        // while (!validInputNumber(x)) {
-        //     x = parseInt(prompt("Invalid X. Enter 0, 1, or 2:"));
-        // }
-    
-        // let y = parseInt(prompt(`Player ${playerNumber} - Enter Y (0-2):`));
-        // while (!validInputNumber(y)) {
-        //     y = parseInt(prompt("Invalid Y. Enter 0, 1, or 2:"));
-        // }
-    
-        // while (GameBoard.gameBoard[x][y] !== " ") {
-        //     alert("Cell occupied! Choose again.");
-        //     return playerMove(symbol, playerNumber);
-        // }
-    
-        // return setInput(x, y, symbol);
-        // }
         function hardComputerMove(p1, symbol) {
             const b = GameBoard.gameBoard;
         
@@ -257,8 +232,14 @@ const GameBoard = (function () {
   
         let result = game.playerMove(currentPlayer, currentNumber);
         over = result.isOver;
-        if (result.winnerMessage) alert(result.winnerMessage);
-  
+        if (result.isOver) {
+          setTimeout(() => {
+            winnerIs.textContent = result.winnerMessage;
+            winnerDialog.showModal();
+          }, 100);
+          return;
+        }
+        
         turn++;
         console.log("now its ",true ," turn ")
       }
@@ -272,7 +253,14 @@ const GameBoard = (function () {
         if (turn % 2 === 1) {
           let result = game.playerMove(p1, 1);
           over = result.isOver;
-          if (result.winnerMessage) alert(result.winnerMessage);
+          if (result.isOver) {
+            setTimeout(() => {
+              winnerIs.textContent = result.winnerMessage;
+              winnerDialog.showModal();
+            }, 100);
+            return;
+          }
+          
         } else {
             let result=0;
           console.log("💻 Computer is thinking...");
@@ -288,6 +276,7 @@ const GameBoard = (function () {
   
         turn++;
       }
+      return result.winnerMessage;
     };
   
     return { logIn };
@@ -300,9 +289,13 @@ const GameBoard = (function () {
 
 
 function DomRender() {
+
+
   let match = 0;
   let level = 0;
   let symbol = '';
+ 
+  
 
   const container = document.querySelector('.welcome-container');
   const choose_match_container = document.querySelector('.choose-match-container');
@@ -327,11 +320,82 @@ function DomRender() {
   const botImage = document.querySelector('.botImage');
   const friendImage = document.querySelector('.friendImage');
 
-  document.querySelector('.symbol-x').addEventListener('click', () => symbol = 'x');
-  document.querySelector('.symbol-o').addEventListener('click', () => symbol = 'o');
+  const symbolx = document.querySelector('.symbol-x');
+  const symboly = document.querySelector('.symbol-o');
 
-  document.querySelector('#simpleLevel').addEventListener('click', () => level = 1);
-  document.querySelector('#hardLevel').addEventListener('click', () => level = 2);
+
+  symbolx.addEventListener('click', () => {
+    symbol = 'x';
+  if (symbolx) {
+    symbolx.style.boxShadow = "0 9px 30px rgb(255, 255, 255)";
+    symboly.style.boxShadow = "none";
+
+    // botElement.style.boxShadow = "none";
+  }
+});
+
+symboly.addEventListener('click', () => {
+  if (symboly) {
+    symboly.style.boxShadow = "0 9px 30px rgb(255, 255, 255)";
+    symbolx.style.boxShadow = "none";
+
+  }
+  symbol = 'o';
+});
+
+      const turnPlayer1 = document.querySelector('.player1');
+      const turnPlayer2 = document.querySelector('.player2');
+
+
+  const simpleLevel=document.querySelector('#simpleLevel');
+  const hardLevel =document.querySelector('#hardLevel'); 
+
+  simpleLevel.addEventListener('click', () => {
+    if (simpleLevel) {
+      simpleLevel.style.background = "rgb(106, 233, 222)";
+      simpleLevel.style.borderColor = "rgb(106, 233, 222)";
+
+      simpleLevel.style.boxShadow = "0 0 30px rgb(57, 168, 159)";
+      hardLevel.style.background = "#f1a94a";
+      hardLevel.style.borderColor = "#f1a94a";
+      hardLevel.style.boxShadow = "none";
+  
+    }
+    level = 1});
+  hardLevel.addEventListener('click', () => {
+    if (hardLevel) {
+      hardLevel.style.background = "rgb(106, 233, 222)";
+      hardLevel.style.borderColor = "rgb(106, 233, 222)";
+      hardLevel.style.boxShadow = "0 0 30px rgb(57, 168, 159)";
+      simpleLevel.style.background = "#f1a94a";
+      simpleLevel.style.borderColor = "#f1a94a";
+
+
+      simpleLevel.style.boxShadow = "none";
+  
+    }
+    level = 2});
+
+  const winnerDialog = document.querySelector("#winnerDialog");
+  const winnerIs = document.querySelector('#winnerIs');
+  document.getElementById("playAgainBtn").addEventListener("click", () => {
+    winnerDialog.close();
+    container.style.display = "none";
+    choose_match_container.style.display = "none";
+    choose_level_container.style.display = "none";
+    enter_your_name.style.display = "none";
+    game.style.display = "flex";
+  
+    // Reset internal game state
+    GameBoard.reset();
+  
+    // Clear the visual board
+    document.querySelectorAll(".card").forEach(card => {
+      card.innerHTML = "";
+    });
+    
+    
+  });
 
   document.querySelector('.logo').addEventListener('click', () => {
     container.style.display = "flex";
@@ -351,14 +415,34 @@ function DomRender() {
     container.style.display = "none";
     choose_match_container.style.display = "flex";
   });
+  const friendElement = document.getElementsByClassName('friendDiv')[0];
+  const botElement = document.getElementsByClassName('botDiv')[0];
+
+  // if(symbolx || symboly){
 
   botImage.addEventListener('click', () => {
+    
+    if (botElement) {
+      botElement.style.boxShadow = "0 9px 30px rgb(98, 232, 255)";
+      friendElement.style.boxShadow = "none";
+
+    }
+    console.log(symbol)
+
     match = 2;
+    
     matchBtn.addEventListener('click', () => {
       choose_match_container.style.display = "none";
       enter_your_name.style.display = "none";
+      if (symbol === '') {
+        console.log(symbol)
+       choose_match_container.style.display = "flex";
+        
+      }else{
       choose_level_container.style.display = "flex";
+      }
     });
+  
 
     leveBtn.addEventListener('click', () => {
       choose_level_container.style.display = "none";
@@ -423,29 +507,50 @@ function DomRender() {
                 }
               }
 
-              if (botMove && botMove.isOver) {
-                setTimeout(() => alert(botMove.winnerMessage), 100);
-                return;
-              }
 
               currentTurn = p1;
+
+
+              // turnPlayer1.classList.toggle('highlight', currentTurn === 'x');
+              // turnPlayer2.classList.toggle('highlight', currentTurn === 'o');
+
+              if (botMove && botMove.isOver) {
+                setTimeout(() => {
+                  winnerIs.textContent = botMove.winnerMessage;
+                  winnerDialog.showModal();
+                  console.log("winner winner")
+                }, 100);
+                return;
+              }
+              
             }, 1000);
           });
 
           game_board.appendChild(card);
         }
       }
-
+     
       Player.logIn(match, symbol, level);
     });
+    
   });
+// }
 
   friendImage.addEventListener('click', () => {
+    if (friendElement) {
+      friendElement.style.boxShadow = "0 9px 30px rgb(223, 194, 33)";
+      botElement.style.boxShadow = "none";
+    }
     match = 1;
     matchBtn.addEventListener('click', () => {
       choose_match_container.style.display = "none";
       choose_level_container.style.display = "none";
+      if (symbol === '') {
+        console.log(symbol)
+      choose_match_container.style.display = "flex";
+      }else{
       enter_your_name.style.display = "flex";
+    }
     });
 
     nameBtn.addEventListener('click', () => {
@@ -462,6 +567,8 @@ function DomRender() {
 
       let currentTurn = symbol;
       game_board.innerHTML = "";
+      
+      
 
       for (let i = 0; i < 3; i++) {
         for (let j = 0; j < 3; j++) {
@@ -488,13 +595,21 @@ function DomRender() {
             const result = Game().setInput(x, y, currentTurn);
             card.appendChild(img);
 
-            if (result.isOver) {
-              setTimeout(() => alert(result.winnerMessage), 100);
-            }
 
             currentTurn = currentTurn === "x" ? "o" : "x";
-          });
+            turnPlayer1.classList.toggle('highlight', currentTurn === 'x');
+            turnPlayer2.classList.toggle('highlight', currentTurn === 'o');
 
+            if (result.isOver) {
+              setTimeout(() => {
+                winnerIs.textContent = result.winnerMessage;
+                winnerDialog.showModal();
+              }, 100);
+              return;
+            }
+            
+          })
+          
           game_board.appendChild(card);
         }
       }
