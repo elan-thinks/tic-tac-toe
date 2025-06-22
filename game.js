@@ -22,6 +22,16 @@ const GameBoard = (function () {
         console.log("-------------");
       }
     };
+    const reset = () => {
+      // Directly mutate the `gameBoard` array
+      for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+          gameBoard[i][j] = " ";
+        }
+      }
+      console.log("reset yeeeeee");
+
+    };
   
     const isBoardFull = () => {
       for (let i = 0; i < gameBoard.length; i++) {
@@ -34,7 +44,7 @@ const GameBoard = (function () {
       return true;
     };
   
-    return { gameBoard, render_gameBoard, isBoardFull,players };
+    return { gameBoard, reset,render_gameBoard, isBoardFull,players };
   })();
 
 
@@ -85,6 +95,7 @@ const GameBoard = (function () {
     
         if (isWinner) return `The winner is ${choice}`;
         if (GameBoard.isBoardFull()) return "It's a Draw!";
+          //  GameBoard.reset();
         return null;
         }
   
@@ -288,260 +299,207 @@ const GameBoard = (function () {
 
 
 
+function DomRender() {
+  let match = 0;
+  let level = 0;
+  let symbol = '';
 
+  const container = document.querySelector('.welcome-container');
+  const choose_match_container = document.querySelector('.choose-match-container');
+  const choose_level_container = document.querySelector('.choose-level-container');
+  const enter_your_name = document.querySelector('.enter-your-name');
+  const game = document.querySelector('.game');
+  const game_board = document.querySelector('.game-board');
 
-function DomRender(){
-    let match = 0;
-    let level = 0;
-    let symbol = '';
-    const container = document.querySelector('.welcome-container');
-    const choose_match_container = document.querySelector('.choose-match-container');
-    const choose_level_container = document.querySelector('.choose-level-container');
-    const enter_your_name = document.querySelector('.enter-your-name');
-    const game = document.querySelector('.game');
+  const player1_avatar = document.querySelector('.player1');
+  const player2_avatar = document.querySelector('.player2');
 
-    const logo = document.querySelector('.logo').addEventListener('click',()=>{
-        container.style.display="flex";
-        choose_match_container.style.display="none";
-        choose_level_container.style.display="none";
-        enter_your_name.style.display="none";
-        game.style.display="none"
-        
+  const player_one_name = document.querySelector('#player1-name');
+  const player_two_name = document.querySelector('#player2-name');
+  const player_one_label = document.querySelector('#player-1');
+  const player_two_label = document.querySelector('#player-2');
 
-    })
-    
-    const player1_avatar= document.querySelector('.player1')
-    const player2_avatar= document.querySelector('.player2')
+  const playButton = document.querySelector('.playBtn');
+  const matchBtn = document.querySelector('#matchBtn');
+  const leveBtn = document.querySelector('#leveBtn');
+  const nameBtn = document.querySelector('#nameBtn');
 
-    const game_board= document.querySelector('.game-board')
+  const botImage = document.querySelector('.botImage');
+  const friendImage = document.querySelector('.friendImage');
 
+  document.querySelector('.symbol-x').addEventListener('click', () => symbol = 'x');
+  document.querySelector('.symbol-o').addEventListener('click', () => symbol = 'o');
 
-    const player_one_name = document.querySelector('#player1-name');
-    const player_two_name = document.querySelector('#player2-name');
-    const player_one_label= document.querySelector('#player-1');
-    const player_two_label= document.querySelector('#player-2');
+  document.querySelector('#simpleLevel').addEventListener('click', () => level = 1);
+  document.querySelector('#hardLevel').addEventListener('click', () => level = 2);
 
+  document.querySelector('.logo').addEventListener('click', () => {
+    container.style.display = "flex";
+    choose_match_container.style.display = "none";
+    choose_level_container.style.display = "none";
+    enter_your_name.style.display = "none";
+    game.style.display = "none";
+    game_board.innerHTML = "";
 
-    const playButton = document.querySelector('.playBtn');
-    const matchBtn = document.querySelector('#matchBtn');
-    const leveBtn = document.querySelector('#leveBtn');
-    const nameBtn = document.querySelector('#nameBtn');
+    if (typeof GameBoard?.reset === 'function') GameBoard.reset();
 
-    const botImage = document.querySelector('.botImage');
-    const friendImage = document.querySelector('.friendImage');
+    player_one_name.value = "";
+    player_two_name.value = "";
+  });
 
-    const simpleLevel = document.querySelector('#simpleLevel').addEventListener('click',()=>{
-        level = 1;
+  playButton.addEventListener('click', () => {
+    container.style.display = "none";
+    choose_match_container.style.display = "flex";
+  });
+
+  botImage.addEventListener('click', () => {
+    match = 2;
+    matchBtn.addEventListener('click', () => {
+      choose_match_container.style.display = "none";
+      enter_your_name.style.display = "none";
+      choose_level_container.style.display = "flex";
     });
-    const hardLevel = document.querySelector('#hardLevel').addEventListener('click',()=>{
-        level = 2; 
+
+    leveBtn.addEventListener('click', () => {
+      choose_level_container.style.display = "none";
+      enter_your_name.style.display = "none";
+
+      game.style.display = "flex";
+
+      GameBoard.players.player1 = "You";
+      GameBoard.players.player2 = "Bot";
+      player_one_label.textContent = GameBoard.players.player1;
+      player_two_label.textContent = GameBoard.players.player2;
+      player1_avatar.src = "Assets/friend.png";
+      player2_avatar.src = "Assets/image.png";
+
+      const gameInstance = Game();
+      const p1 = symbol;
+      const cpu = symbol === "x" ? "o" : "x";
+      const playerImg = p1 === "x" ? "Assets/x.png" : "Assets/o.png";
+      const cpuImg = cpu === "x" ? "Assets/x.png" : "Assets/o.png";
+      let currentTurn = p1;
+
+      game_board.innerHTML = "";
+
+      for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+          const card = document.createElement("div");
+          card.classList.add("card");
+          card.id = `card-${i}-${j}`;
+
+          card.addEventListener("click", () => {
+            if (currentTurn !== p1 || card.querySelector("img")) return;
+
+            const img = document.createElement("img");
+            img.src = playerImg;
+            img.alt = p1;
+            img.style.width = "80%";
+            img.style.height = "80%";
+            card.appendChild(img);
+
+            const result = gameInstance.setInput(i, j, p1);
+            if (result.isOver) {
+              setTimeout(() => alert(result.winnerMessage), 100);
+              return;
+            }
+
+            currentTurn = cpu;
+
+            setTimeout(() => {
+              const botMove = level === 2
+                ? gameInstance.hardComputerMove(p1, cpu)
+                : gameInstance.simpleComputerMove(p1, cpu);
+
+              if (botMove && botMove.x !== undefined && botMove.y !== undefined) {
+                const botCard = document.querySelector(`#card-${botMove.x}-${botMove.y}`);
+                if (botCard && !botCard.querySelector("img")) {
+                  const botImg = document.createElement("img");
+                  botImg.src = cpuImg;
+                  botImg.alt = cpu;
+                  botImg.style.width = "80%";
+                  botImg.style.height = "80%";
+                  botCard.appendChild(botImg);
+                }
+              }
+
+              if (botMove && botMove.isOver) {
+                setTimeout(() => alert(botMove.winnerMessage), 100);
+                return;
+              }
+
+              currentTurn = p1;
+            }, 1000);
+          });
+
+          game_board.appendChild(card);
+        }
+      }
+
+      Player.logIn(match, symbol, level);
     });
-    const symbolX= document.querySelector('.symbol-x').addEventListener('click',()=>{
-        symbol = 'x';
+  });
 
+  friendImage.addEventListener('click', () => {
+    match = 1;
+    matchBtn.addEventListener('click', () => {
+      choose_match_container.style.display = "none";
+      choose_level_container.style.display = "none";
+      enter_your_name.style.display = "flex";
     });
-    const symbolO= document.querySelector('.symbol-o').addEventListener('click',()=>{
-        symbol = 'o';
 
+    nameBtn.addEventListener('click', () => {
+      choose_level_container.style.display = "none";
+      enter_your_name.style.display = "none";
+      game.style.display = "flex";
+
+      GameBoard.players.player1 = player_one_name.value;
+      GameBoard.players.player2 = player_two_name.value;
+      player_one_label.textContent = GameBoard.players.player1;
+      player_two_label.textContent = GameBoard.players.player2;
+      player1_avatar.src = "Assets/friend.png";
+      player2_avatar.src = "Assets/friend.png";
+
+      let currentTurn = symbol;
+      game_board.innerHTML = "";
+
+      for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+          const card = document.createElement("div");
+          card.classList.add("card");
+          card.id = `card-${i}-${j}`;
+          card.dataset.x = i;
+          card.dataset.y = j;
+          card.textContent = GameBoard.gameBoard[i][j];
+
+          card.addEventListener("click", () => {
+            if (card.querySelector("img")) return;
+
+            const img = document.createElement("img");
+            img.src = currentTurn === "x" ? "Assets/x.png" : "Assets/o.png";
+            img.alt = currentTurn;
+            img.style.width = "80%";
+            img.style.height = "80%";
+
+            const x = parseInt(card.dataset.x);
+            const y = parseInt(card.dataset.y);
+            GameBoard.gameBoard[x][y] = currentTurn;
+
+            const result = Game().setInput(x, y, currentTurn);
+            card.appendChild(img);
+
+            if (result.isOver) {
+              setTimeout(() => alert(result.winnerMessage), 100);
+            }
+
+            currentTurn = currentTurn === "x" ? "o" : "x";
+          });
+
+          game_board.appendChild(card);
+        }
+      }
     });
-    
-
-    
-
-    playButton.addEventListener('click',()=>{
-        container.style.display="none";
-        choose_match_container.style.display="flex";
-      
-
-            //with bot game
-        botImage.addEventListener('click',()=>{
-            match = 2;
-            
-                // if(match === 2){
-            const symbolX= document.querySelector('.symbol-x').addEventListener('click',()=>{symbol = 'x';});
-            const symbolO= document.querySelector('.symbol-o').addEventListener('click',()=>{symbol = 'o';});
-            console.log("helllllloooo")
-          
-             matchBtn.addEventListener('click',()=>{   
-                choose_match_container.style.display="none";
-                choose_level_container.style.display="flex";
-
-             
-
-                leveBtn.addEventListener('click',()=>{
-                  player1_avatar.src = "Assets/image.png";
-                  player2_avatar.src = "Assets/friend.png";
-                       if( level = 1)
-                        choose_level_container.style.display="none";
-                        game.style.display="flex"
-                       if(level = 2){
-                         choose_level_container.style.display="none";
-                        game.style.display="flex"
-                       }
-                       let currentTurn = symbol; // Start with chosen symbol, 'x' or 'o'
-
-                    GameBoard.players.player1="You";
-                    GameBoard.players.player2="Bot";
-
-                    player_one_label.textContent=GameBoard.players.player1;
-                    player_two_label.textContent=GameBoard.players.player2;
-
-                    console.log(GameBoard.players)
-                    enter_your_name.style.display="none";
-                    game.style.display="flex"
-                    player1_avatar.src = "Assets/friend.png";
-                    player2_avatar.src = "Assets/image.png";
-
-
-                    const gameInstance = Game(); // You must have a Game() function returning game logic
-                    // let imageIs =symbol=== "x" ? "Assets/x.png" : "Assets/o.png";
-                    
-                    const p1 = symbol;
-                    const cpu = p1 ==="x" ? "o" : "x";
-                    const playerImg = p1 === "x" ? "Assets/x.png" : "Assets/o.png";
-                    const cpuImg = cpu === "x" ? "Assets/x.png" : "Assets/o.png";
-
-                    currentTurn = p1;
-                
-                    // Create the 3x3 board
-                    for (let i = 0; i < 3; i++) {
-                      
-                
-                        for (let j = 0; j < 3; j++) {
-                            const card = document.createElement("div");
-                            card.classList.add("card");
-                            card.id = `card-${i}-${j}`;
-                
-                            card.addEventListener("click", () => {
-                                // Block if not player's turn or already has image
-                                if (currentTurn !== p1 || card.querySelector("img")) return;
-                
-                                // Player's move
-                                const img = document.createElement("img");
-                                img.src = playerImg;
-                                img.alt = p1;
-                                img.style.width = "80%";
-                                img.style.height = "80%";
-                                card.appendChild(img);
-                
-                                const result = gameInstance.setInput(i, j, p1);
-                
-                                if (result.isOver) {
-                                    setTimeout(() => alert(result.winnerMessage), 100);
-                                    return;
-                                }
-                
-                                currentTurn = cpu;
-                
-                                // Computer's move (after small delay)
-                                setTimeout(() => {
-                                    const botMove = level === 2
-                                        ? gameInstance.hardComputerMove(p1, cpu)
-                                        : gameInstance.simpleComputerMove(p1, cpu);
-                
-                                    if (botMove && botMove.x !== undefined && botMove.y !== undefined) {
-                                        const botCard = document.querySelector(`#card-${botMove.x}-${botMove.y}`);
-                                        if (botCard && !botCard.querySelector("img")) {
-                                            const botImg = document.createElement("img");
-                                            botImg.src = cpuImg;
-                                            botImg.alt = cpu;
-                                            botImg.style.width = "80%";
-                                            botImg.style.height = "80%";
-                                            botCard.appendChild(botImg);
-                                        }
-                                    }
-                
-                                    if (botMove && botMove.isOver) {
-                                        setTimeout(() => alert(botMove.winnerMessage), 100);
-                                        return;
-                                    }
-                
-                                    currentTurn = p1;
-                                }, 1000); // Small delay for realism
-                            });
-                        game_board.appendChild(card);
-                      }
-                    }
-               
-                        Player.logIn(match,symbol,level);
-                        console.log("player ",match," symbol ",symbol," level ",level)
-                    
-                  });
-            
-              })
-        })
-          
-          friendImage.addEventListener('click',()=>{
-              match = 1;
-              const symbolX= document.querySelector('.symbol-x').addEventListener('click',()=>{symbol = 'x';});
-              const symbolO= document.querySelector('.symbol-o').addEventListener('click',()=>{symbol = 'o';});
-            console.log("helllllloooo friend")
-
-               
-                matchBtn.addEventListener('click',()=>{   
-                  choose_match_container.style.display="none";
-                enter_your_name.style.display="flex";
-
-                nameBtn.addEventListener('click',()=>{
-                  let currentTurn = symbol; // Start with chosen symbol, 'x' or 'o'
-
-                    GameBoard.players.player1=player_one_name.value;
-                    GameBoard.players.player2=player_two_name.value;
-
-                    player_one_label.textContent=GameBoard.players.player1;
-                    player_two_label.textContent=GameBoard.players.player2;
-
-                    console.log(GameBoard.players)
-                    enter_your_name.style.display="none";
-                    game.style.display="flex"
-                    player1_avatar.src = "Assets/friend.png";
-                    player2_avatar.src = "Assets/friend.png";
-
-
-                    let turn = 0;
-                    for (let i = 0; i < 3; i++) {
-                      for (let j = 0; j < 3; j++) {
-                        const card = document.createElement('div');
-                        card.className = 'card';
-                        card.id = `card-${i}-${j}`;
-                        card.dataset.x = i;
-                        card.dataset.y = j;
-                        card.textContent = GameBoard.gameBoard[i][j]; // Initially " "
-                        card.addEventListener('click', (e) => {
-                          console.log(`Card ${card.id} clicked`);
-                          if (card.querySelector('img')){return};
-
-                                  const img = document.createElement('img');
-                                  img.src = currentTurn === "x" ? "Assets/x.png" : "Assets/o.png";
-                                  img.alt = currentTurn;
-                                  img.style.width = "80%";
-                                  img.style.height = "80%";
-
-
-                                  // Update game board state
-                                  const x = parseInt(card.dataset.x);
-                                  const y = parseInt(card.dataset.y);
-                                  GameBoard.gameBoard[x][y] = currentTurn;
-
-
-                                  // Optionally check winner
-                                  const result = Game().setInput(x, y, currentTurn);
-                                  card.appendChild(img);
-
-                                  if (result.isOver) {
-                                    setTimeout(() => alert(result.winnerMessage), 100);
-                                  }
-
-                                  // Toggle turn
-                                  currentTurn = currentTurn === "x" ? "o" : "x";
-                          // Here you can call playerMove or setInput depending on turn
-                        });
-                        game_board.appendChild(card);
-                      }
-                    }  
-                })
-          });  
-        });       
-    })
+  });
 }
+
 DomRender();
