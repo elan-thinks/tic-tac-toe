@@ -330,7 +330,6 @@ function DomRender() {
     symbolx.style.boxShadow = "0 9px 30px rgb(255, 255, 255)";
     symboly.style.boxShadow = "none";
 
-    // botElement.style.boxShadow = "none";
   }
 });
 
@@ -509,10 +508,6 @@ symboly.addEventListener('click', () => {
 
 
               currentTurn = p1;
-
-
-              // turnPlayer1.classList.toggle('highlight', currentTurn === 'x');
-              // turnPlayer2.classList.toggle('highlight', currentTurn === 'o');
 
               if (botMove && botMove.isOver) {
                 setTimeout(() => {
