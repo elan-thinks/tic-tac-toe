@@ -21,9 +21,9 @@ body{
 .wrapper{
     position: relative;
     width: 50%;
-    min-width: 300px;
-    height: 97vh;
-    min-height: 96vh;
+    min-width: 350px;
+    height: 98vh;
+    /* min-height: 97vh; */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -377,9 +377,9 @@ dialog {
     position: fixed;
     inset: 0;
     margin: auto;
-    width: 400px;
-    padding: 20px;
-    height: 40vh;
+    width: 30vh;
+    padding: 10px;
+    height: 35vh;
     border: 3px solid rgb(70, 236, 181);
     border-radius: 12px;
     background-color: white;
@@ -420,6 +420,7 @@ dialog {
   
   #playAgainBtn {
     padding: 10px 20px;
+    width: 80%;
     font-size: 1rem;
     font-weight: 700;
     color: white;
