@@ -271,7 +271,14 @@ const GameBoard = (function () {
             result = game.simpleComputerMove(p1,cpu);
           }
           over = result.isOver;
-          if (result.winnerMessage) alert(result.winnerMessage);
+          if (result.isOver) {
+            setTimeout(() => {
+              winnerIs.textContent = result.winnerMessage;
+              winnerDialog.showModal();
+            }, 100);
+            return;
+          }
+          // if (result.winnerMessage) alert(result.winnerMessage);
         }
   
         turn++;
